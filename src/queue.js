@@ -15,25 +15,34 @@ const { ListNode } = require('../extensions/list-node.js');
 class Queue {
   getUnderlyingList() {
     // Remove line below and write your code here
-    return this.head || null;
+    if (!this.head) return null;
+    const convertToListNode = (node) => {
+      if (!node) return null;
+      return {
+        value: node.value,
+        next: convertToListNode(node.next)
+      };
+    };
+    
+    return convertToListNode(this.head);
   }
 
   enqueue(value) {
     // Remove line below and write your code here
-    const newNode = new ListNode(value);
+    const node = new ListNode(value);
     if (!this.head) {
-      this.head = newNode;
-      this.tail = newNode;
+      this.head = node;
+      this.tail = node;
     } else {
-      this.tail.next = newNode;
-      this.tail = newNode;
+      this.tail.next = node;
+      this.tail = node;
     }
   }
 
   dequeue() {
     // Remove line below and write your code here
     if (!this.head) {
-      return undefined; 
+      return undefined;
     }
     const value = this.head.value;
     this.head = this.head.next;
